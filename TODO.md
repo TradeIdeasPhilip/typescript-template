@@ -40,6 +40,9 @@ On a crowded page, a small `❓` (or `?`) is enough.  "About", "help" or "source
 Put a placeholder in the template's `index.html`, and a checklist item in the README:
 "Point the ❓ link at this repository."
 
+Don't forget, some projects that use https://github.com/TradeIdeasPhilip/canvas-recorder-lib don't provide their own GUI.
+Many immediately start the video editor which clears all HTML and starts fresh.
+
 ## No `file:` dependencies
 
 `"some-library": "file:../some-library"` works on your computer and silently breaks the deploy.
