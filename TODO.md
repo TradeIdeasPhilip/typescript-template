@@ -57,7 +57,7 @@ See canvas-recorder-lib's
 
 ## Current versions
 
-- TypeScript 6 and Vite 8.  The template has TypeScript 5.2 and Vite 5.
+- TypeScript 6 and Vite 8.  The template has TypeScript 5.2 and Vite 5. (**Status**:  This is already out of date.  Use the latest versions unless there is some reason not to.)
 - TypeScript 6 checks side-effect imports, like `import "./style.css"`, and fails without
   `src/vite-env.d.ts` containing `/// <reference types="vite/client" />`.  Vite's own template has it.
 - phil-lib:  update to the current version.
