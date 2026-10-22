@@ -58,9 +58,39 @@ See canvas-recorder-lib's
 ## Current versions
 
 - TypeScript 6 and Vite 8.  The template has TypeScript 5.2 and Vite 5. (**Status**:  This is already out of date.  Use the latest versions unless there is some reason not to.)
-- TypeScript 6 checks side-effect imports, like `import "./style.css"`, and fails without
-  `src/vite-env.d.ts` containing `/// <reference types="vite/client" />`.  Vite's own template has it.
+- TypeScript 6 checks side-effect imports, like `import "./style.css"`.  See the next section.
 - phil-lib:  update to the current version.
+
+## Error:  `Cannot find module or type declarations for side-effect import of './style.css'`
+
+This keeps coming back.  Most recently in css-3d-perspective (October 2026).
+
+**Fix:**  add `src/vite-env.d.ts`, containing this one line:
+
+```ts
+/// <reference types="vite/client" />
+```
+
+Or add `"types": ["vite/client"]` to `compilerOptions` in `tsconfig.json`.  Either one works.
+
+**Why:**  `vite/client` tells TypeScript about the files Vite can import that aren't TypeScript, like
+`*.css` and `*.svg`.  TypeScript 6 turned on `noUncheckedSideEffectImports` by default, so
+`import "./style.css"` is an error unless something declares `*.css`.
+
+**How it gets lost:**  this template has `src/vite-env.d.ts`, so a project copied from this template is fine.
+The problem comes from mixing the two templates:
+
+- `npm create vite@latest` no longer makes `src/vite-env.d.ts`.  It puts `"types": ["vite/client"]` in
+  `tsconfig.json` instead.
+- Replacing that `tsconfig.json` with this template's copy deletes that line, and there is no
+  `vite-env.d.ts` to fall back on.
+
+**Why only VS Code complains:**  in css-3d-perspective, `npm run build` still passed, because the project
+had TypeScript 5.9, where this check is off by default.  VS Code has its own, newer TypeScript, so the
+red squiggle showed up in the editor first.  The build will fail too, after the next `typescript` upgrade.
+
+**For the rewrite:**  pick one of the two fixes, and say in the README that it's required, so it doesn't get
+deleted as clutter.
 
 ## Projects that use canvas-recorder-lib
 
